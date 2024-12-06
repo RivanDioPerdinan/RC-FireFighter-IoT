@@ -134,7 +134,14 @@
             if (button) {
                 button.classList.remove('pressed'); // Hapus kelas pressed
             }
+
+            // Tambahkan logika untuk Stop (X) ketika W, S, A, atau D dilepaskan
+            if (key === 'W' || key === 'S' || key === 'A' || key === 'D') {
+                sendControl('X'); // Kirim perintah Stop
+            }
         });
+
+
 
 
         // Dark Mode Toggle
