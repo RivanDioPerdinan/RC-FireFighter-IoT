@@ -46,7 +46,7 @@ def generate_dummy_data():
             47.83, 51.23, 49.04, 45.57, 50.99,
             48.24, 52.16, 46.41, 48.68, 50.12
         ],
-        "battery": 10,  # Battery percentage (from 0 to 100)
+        "battery": 70,  # Battery percentage (from 0 to 100)
         "signal": 52,   # Signal strength (from 0 to 100)
     }
 
@@ -77,6 +77,8 @@ def control_car():
         mqtt_message = "right"
     elif direction == "S":
         mqtt_message = "backward"
+    elif direction == "X":
+        mqtt_message = "stop"
 
     if mqtt_message:
         # Publish message to MQTT topic
