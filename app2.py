@@ -50,13 +50,31 @@ def generate_dummy_data():
         "signal": 52,   # Signal strength (from 0 to 100)
     }
 
-@app.route('/')
+@app.route('/monitoring')
 def dashboard():
     return render_template('dashboard.html')
 
 @app.route('/controlling')
 def controlling():
     return render_template('controlling.html')
+
+@app.route('/')
+def profile():
+    people = [
+
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Muhammad Raya Fathaya', 'NRP': '15-2022-004'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Shidiq Nur Hasan', 'NRP': '15-2022-016'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Sadira Amalina', 'NRP': '15-2022-018'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Fadhil Teguh Amara', 'NRP': '15-2022-020'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Jabir Muhammad Nizar', 'NRP': '15-2022-021'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Fajar Faturohman', 'NRP': '15-2022-034'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Farel Anugrah Al Fauzan', 'NRP': '15-2022-042'},
+        {'profile_picture': '/static/images/rivan.jpg', 'name': 'Rivan Dio Perdinan', 'NRP': '15-2022-048'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Abhyasa Gunawan Yusuf', 'NRP': '15-2022-087'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Muhammad Sakha Sandia', 'NRP': '15-2022-152'},
+        {'profile_picture': 'path/to/image1.jpg', 'name': 'Dadan Ramdani', 'NRP': '15-2022-153'},
+    ]
+    return render_template('profile.html', people=people)
 
 @app.route('/sensor-data')
 def sensor_data():

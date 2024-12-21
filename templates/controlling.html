@@ -19,7 +19,7 @@
     {% include 'sidebar.html' %}
 
         <!-- Content -->
-        <div id="page-content-wrapper" class="w-100">
+        <div id="page-content-wrapper" class="w-100" style="margin-left: 350px;">
             <div class="container-fluid mt-4">
                 <div class="d-flex justify-content-between mt-4">
                     <h1>Dashboard - Controlling</h1>
@@ -92,9 +92,10 @@
                             </svg>                              
                         </button>
                     </div>
-                    <button class="btn btn-primary control-btn" onclick="sendControl('X')">
-                        Stop                     
+                    <button class="btn btn-primary control-btn" id="stopButton" onclick="sendControl('X')" style="display:none;">
+                        Stop
                     </button>
+                    
                                      
                 </div>
             </div>
