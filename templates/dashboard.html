@@ -5,139 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IoT RC Car Monitoring Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dy9e6h8RL9O/i6UAB8vTMpqwe9YcJh+qR5Wcwdi73QOxt30GxG9wE0qZ6xzt06FbFQFwz6YNLnE+bi3IJ6ubxg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        {% include 'sidebar.html' %}
 
-    <!-- Sidebar and Content -->
-    <div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
-    {% include 'sidebar.html' %}
+        <!-- Main Content -->
+        <div class="container mt-5" style="margin-left: 300px;">
+            <h1 class="text-center mb-4">IoT RC Car Monitoring Dashboard</h1>
 
-        <!-- Monitoring Content -->
-        <div id="page-content-wrapper" style="margin-left: 350px;">
-            <div class="container-fluid">
-                <div class="d-flex justify-content-between mt-4">
-                    <h1>Dashboard - Monitoring</h1>
-                    <button id="darkModeToggle" class="btn btn-secondary p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-size">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                        </svg>
-                    </button>
-                </div>
-                
+            <!-- API Data - GET ALL -->
+            <h2>API Data - GET ALL</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Speed</th>
+                        <th>Battery</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in data.api_data.get_all.data %}
+                    <tr>
+                        <td>{{ entry.id }}</td>
+                        <td>{{ entry.speed }}</td>
+                        <td>{{ entry.battery }}</td>
+                        <td>{{ entry.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-                <!-- Monitoring Section -->
-                <div id="monitoring">
-                    <h2 class="mt-4">Live Data</h2>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Total Data</h5>
-                                    <p class="card-text" id="total_data">0</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-white bg-warning mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Average Temperature</h5>
-                                    <p class="card-text" id="average_temperature">0°C</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-white bg-success mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Average Humidity</h5>
-                                    <p class="card-text" id="average_humidity">0%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card text-white bg-danger mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Device Online</h5>
-                                    <p class="card-text" id="device_online">0</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- API Data - GET MAX -->
+            <h2>API Data - GET MAX</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Max Speed</th>
+                        <th>Date Max Speed</th>
+                        <th>Max Battery</th>
+                        <th>Date Max Battery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ data.api_data.get_max.data.max_speed }}</td>
+                        <td>{{ data.api_data.get_max.data.date_max_speed }}</td>
+                        <td>{{ data.api_data.get_max.data.max_battery }}</td>
+                        <td>{{ data.api_data.get_max.data.date_max_battery }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-                    <!-- Graphs -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <canvas id="temperatureChart"></canvas>
-                        </div>
-                        <div class="col-md-6">
-                            <canvas id="humidityChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- API Data - GET MIN -->
+            <h2>API Data - GET MIN</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Min Speed</th>
+                        <th>Date Min Speed</th>
+                        <th>Min Battery</th>
+                        <th>Date Min Battery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ data.api_data.get_min.data.min_speed }}</td>
+                        <td>{{ data.api_data.get_min.data.date_min_speed }}</td>
+                        <td>{{ data.api_data.get_min.data.min_battery }}</td>
+                        <td>{{ data.api_data.get_min.data.date_min_battery }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- API Data - GET AVG -->
+            <h2>API Data - GET AVG</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Avg Speed</th>
+                        <th>Avg Battery</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ data.api_data.get_avg.data.avg_speed }}</td>
+                        <td>{{ data.api_data.get_avg.data.avg_battery }}</td>
+                        <td>{{ data.api_data.get_avg.date_range.start_date }}</td>
+                        <td>{{ data.api_data.get_avg.date_range.end_date }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <script>
-        // Fetch and update data for monitoring
-        function updateDashboard() {
-            fetch('/sensor-data')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('total_data').innerText = data.total_data;
-                    document.getElementById('average_temperature').innerText = data.average_temperature + '°C';
-                    document.getElementById('average_humidity').innerText = data.average_humidity + '%';
-                    document.getElementById('device_online').innerText = data.device_online ? 'Online' : 'Offline';
-                    updateCharts(data.temperature_data, data.humidity_data);
-                });
-        }
-
-        const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
-        const humidityCtx = document.getElementById('humidityChart').getContext('2d');
-
-        const temperatureChart = new Chart(temperatureCtx, {
-            type: 'line',
-            data: {
-                labels: Array.from({ length: 10 }, (_, i) => `T${i+1}`),
-                datasets: [{
-                    label: 'Temperature (°C)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    data: [],
-                    fill: false
-                }]
-            }
-        });
-
-        const humidityChart = new Chart(humidityCtx, {
-            type: 'line',
-            data: {
-                labels: Array.from({ length: 10 }, (_, i) => `T${i+1}`),
-                datasets: [{
-                    label: 'Humidity (%)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    data: [],
-                    fill: false
-                }]
-            }
-        });
-
-        function updateCharts(temperatureData, humidityData) {
-            temperatureChart.data.datasets[0].data = temperatureData;
-            humidityChart.data.datasets[0].data = humidityData;
-            temperatureChart.update();
-            humidityChart.update();
-        }
-
-        setInterval(updateDashboard, 5000);
-
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-        });
-        
-    </script>
 </body>
 </html>
